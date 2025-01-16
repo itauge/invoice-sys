@@ -11,7 +11,7 @@ export default function Dashboard() {
       <h1 className="text-3xl font-semibold">Invoices</h1>
       <p>
         <Button variant="outline">
-            <Link href="/api/invoices/create" className="flex items-center gap-2">
+            <Link href="/invoices/new" className="flex items-center gap-2">
                 <PlusIcon className="h-4 w-4" />
                 Create Invoice
             </Link>
