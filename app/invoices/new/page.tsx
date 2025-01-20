@@ -1,6 +1,5 @@
 'use client'
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,7 +10,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-
+import { SubmitButton } from "@/components/SubmitButton";
 
 type InvoicesFormData = z.infer<typeof invoiceSchema>;
 
@@ -62,7 +61,7 @@ export default function NewInvoice() {
                     <Textarea {...form.register('description')} />
                 </div>
                 <div>
-                    <Button type="submit" className="w-full" disabled={isSubmitting}>Submit</Button>
+                    <SubmitButton isSubmitting={isSubmitting} />
                 </div>
             </form>
 
