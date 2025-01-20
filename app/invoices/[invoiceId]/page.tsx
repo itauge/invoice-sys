@@ -12,12 +12,20 @@ export default async function Dashboard({params}: Props) {
 
     const invoiceId = parseInt(params.invoiceId);
 
+    if (isNaN(invoiceId)) {
+        throw new Error("Invalid invoice ID");
+    }
+
     const invoice = await prisma.invoices.findUnique({
         where: {
             id: invoiceId
         }
     })
-    
+
+    if (!invoice) {
+        throw new Error("Invoice not found");
+    }
+
   return (
     <main className="h-full max-w-5xl mx-auto my-12">
         <div className="flex justify-between mb-8">
