@@ -44,6 +44,16 @@ export default function SignInPage() {
             />
             <Clerk.FieldError className="mt-2 block text-xs text-red-600" />
           </Clerk.Field>
+          <Clerk.Field name="password">
+            <Clerk.Label className="sr-only">Password</Clerk.Label>
+            <Clerk.Input
+              type="password"
+              required
+              placeholder="Password"
+              className="w-full border-b border-neutral-200 bg-white pb-2 text-sm/6 text-neutral-950 outline-none placeholder:text-neutral-400 hover:border-neutral-300 focus:border-neutral-600 data-[invalid]:border-red-600 data-[invalid]:text-red-600"
+            />
+            <Clerk.FieldError className="mt-2 block text-xs text-red-600" />
+          </Clerk.Field>
           <SignIn.Action
             submit
             asChild
