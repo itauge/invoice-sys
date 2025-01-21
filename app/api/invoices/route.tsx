@@ -2,8 +2,15 @@ import { NextRequest } from "next/server";
 import prisma from "@/prisma/db";
 import { NextResponse } from "next/server";
 import { invoiceSchema } from "@/validationSchemas/invoices";
+import { auth } from "@clerk/nextjs/server";
 
 export async function POST(req: NextRequest) {
+
+    const session = await auth();
+
+    if(!session){
+        return NextResponse.json({error: "Unauthorized"}, {status: 401})
+    }
 
     const body = await req.json();
 
@@ -14,7 +21,7 @@ export async function POST(req: NextRequest) {
     }
 
     const invoice = await prisma.invoices.create({
-        data: {value: Number(body.value), description: body.description}
+        data: {value: Number(body.value), description: body.description, userId: session.userId}
     })
     return NextResponse.json(invoice, { status: 201 });
 }

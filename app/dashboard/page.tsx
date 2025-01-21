@@ -4,10 +4,17 @@ import Container from "@/components/Container";
 import Link from "next/link";
 import DataTable from "@/app/invoices/DataTable";
 import prisma from "@/prisma/db"
+import { auth } from "@clerk/nextjs/server";
 
 export default async function Dashboard() {
 
-    const invoices = await prisma.invoices.findMany();
+    const session = await auth();
+
+    const invoices = await prisma.invoices.findMany({
+        where: {
+            userId: session?.userId
+        }
+    });
 
   return (
         <main className="h-full my-12">

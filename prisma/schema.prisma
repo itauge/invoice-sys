@@ -19,6 +19,7 @@ model Invoices {
   description String
   createdAt DateTime @default(now())
   status Status @default(PENDING)
+  userId String?
 }
 
 enum Status {

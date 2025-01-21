@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import prisma from "@/prisma/db"
 import { cn } from "@/lib/utils";
 import Container from "@/components/Container";
+import { auth } from "@clerk/nextjs/server";
 
 interface Props {
     params: {
@@ -9,17 +10,21 @@ interface Props {
     }
 }
 
-export default async function Dashboard({params}: Props) {
+export default async function InvoicePage({params}: Props) {
 
-    const invoiceId = parseInt(params.invoiceId);
+    const session = await auth();
 
-    if (isNaN(invoiceId)) {
+    const {invoiceId} = await params;
+    const id = parseInt(invoiceId);
+
+    if (isNaN(id)) {
         throw new Error("Invalid invoice ID");
     }
 
     const invoice = await prisma.invoices.findUnique({
         where: {
-            id: invoiceId
+            id: id,
+            userId: session?.userId
         }
     })
 
