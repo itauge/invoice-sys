@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import prisma from "@/prisma/db"
 import { cn } from "@/lib/utils";
+import Container from "@/components/Container";
 
 interface Props {
     params: {
@@ -27,7 +28,8 @@ export default async function Dashboard({params}: Props) {
     }
 
   return (
-    <main className="h-full max-w-5xl mx-auto my-12">
+    <main className="h-full my-12">
+        <Container>
         <div className="flex justify-between mb-8">
         <h1 className="flex items-center gap-2 text-3xl font-semibold">{invoiceId}
             <Badge className={cn(
@@ -71,6 +73,7 @@ export default async function Dashboard({params}: Props) {
                 <span className="text-sm">text</span>
             </li>
         </ul>
+        </Container>
     </main>
   );
 }

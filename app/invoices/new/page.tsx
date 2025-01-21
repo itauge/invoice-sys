@@ -11,6 +11,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { SubmitButton } from "@/components/SubmitButton";
+import Container from "@/components/Container";
 
 type InvoicesFormData = z.infer<typeof invoiceSchema>;
 
@@ -38,10 +39,11 @@ export default function NewInvoice() {
     }
 
   return (
-    <main className="flex flex-col justify-center text-center gap-6 max-w-5xl mx-auto my-12">
-    <div className="flex justify-between">
-      <h1 className="text-3xl font-semibold">Create Invoice</h1>
-    </div>
+    <main className="h-full my-12">
+        <Container>
+            <div className="flex justify-between mb-6">
+                <h1 className="text-3xl font-semibold">Create Invoice</h1>
+            </div>
 
     <form className="grid gap-4 max-w-xs" onSubmit={form.handleSubmit(onSubmit)}>
                 <div>
@@ -64,8 +66,7 @@ export default function NewInvoice() {
                     <SubmitButton isSubmitting={isSubmitting} />
                 </div>
             </form>
-
-
+        </Container>
     </main>
   );
 }
