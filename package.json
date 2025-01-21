@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/elements": "^0.22.12",
     "@clerk/nextjs": "^6.9.14",
     "@hookform/resolvers": "^3.10.0",
     "@prisma/client": "^6.2.1",
@@ -22,6 +23,7 @@
     "prisma": "^6.2.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.54.2",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.1"
