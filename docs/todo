@@ -1,0 +1,16 @@
+before starting the project 
+-> add the following to the .env file
+    DATABASE_URL="postgresql://postgres:root@localhost:5432/InvoiceDb?schema=public"
+
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=xxx
+    CLERK_SECRET_KEY=xxx
+
+    NEXT_PUBLIC_CLERK_SIGN_IN_URL="/sign-in"
+    NEXT_PUBLIC_CLERK_SIGN_UP_URL="/sign-up"
+    NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL="/dashboard"
+    NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL="/dashboard"
+
+
+TODO:
+connect with payment provider
+add the email provider
