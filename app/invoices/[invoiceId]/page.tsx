@@ -37,6 +37,20 @@ async function updateInvoiceStatus(formData: FormData) {
     revalidatePath(`/invoices/${id}`)
 }
 
+async function deleteInvoice(formData: FormData) {
+    "use server"
+
+    const session = await auth();
+    
+    if (!session?.userId) {
+        throw new Error("User not found");
+    }
+
+    const id = formData.get("id") as string
+
+    await prisma.invoices.delete({where: {id: parseInt(id), userId: session.userId}})
+}
+
 export default async function InvoicePage({params}: Props) {
 
     const session = await auth();
@@ -60,6 +74,10 @@ export default async function InvoicePage({params}: Props) {
     }
 
   return (
-    <Invoice invoice={invoice} updateInvoiceStatus={updateInvoiceStatus} AVAILABLE_STATUSES={AVAILABLE_STATUSES} />
+    <Invoice 
+    invoice={invoice} 
+    updateInvoiceStatus={updateInvoiceStatus} 
+    AVAILABLE_STATUSES={AVAILABLE_STATUSES} 
+    deleteInvoice={deleteInvoice} />
   );
 }

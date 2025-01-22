@@ -4,18 +4,32 @@ import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Container from "@/components/Container"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Ellipsis } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Invoices, Status } from "@prisma/client"
 import { useOptimistic } from "react"
+import { useRouter } from "next/navigation"
+import { 
+    AlertDialog,
+    AlertDialogAction, 
+    AlertDialogCancel, 
+    AlertDialogContent, 
+    AlertDialogDescription, 
+    AlertDialogFooter, 
+    AlertDialogHeader, 
+    AlertDialogTitle, 
+    AlertDialogTrigger } from "@/components/ui/alert-dialog"
 
 interface InvoiceProps {
     invoice: Invoices
     updateInvoiceStatus: (formData: FormData) => Promise<void>
+    deleteInvoice: (formData: FormData) => Promise<void>
     AVAILABLE_STATUSES: {id: string, label: string}[]
 }
 
-export default function Invoice({invoice, updateInvoiceStatus, AVAILABLE_STATUSES}: InvoiceProps) {
+export default function Invoice({invoice, updateInvoiceStatus, deleteInvoice, AVAILABLE_STATUSES}: InvoiceProps) {
+
+    const router = useRouter()
 
     //樂觀更新 - 即係話喺server確認之前，UI就會即刻更新。
     const [currentStatus, setCurrentStatus] = useOptimistic(
@@ -29,6 +43,15 @@ export default function Invoice({invoice, updateInvoiceStatus, AVAILABLE_STATUSE
             await updateInvoiceStatus(formData)
         } catch {
             setCurrentStatus(invoice.status)
+        }
+    }
+
+    async function handleDeleteInvoice(formData: FormData) {
+        try{
+            await deleteInvoice(formData)
+            router.push("/dashboard")
+        } catch {
+            console.error("Failed to delete invoice")
         }
     }
 
@@ -47,6 +70,7 @@ export default function Invoice({invoice, updateInvoiceStatus, AVAILABLE_STATUSE
             </Badge>
         </h1>
 
+        <div className="flex flex-col gap-2">
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button className="flex items-center gap-2" variant="outline">
@@ -68,6 +92,47 @@ export default function Invoice({invoice, updateInvoiceStatus, AVAILABLE_STATUSE
                 ))}
             </DropdownMenuContent>
         </DropdownMenu>
+
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button className="flex items-center gap-2" variant="outline">
+                    <span>
+                        More Options
+                    </span>
+                    <Ellipsis className="w-4 h-auto" />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+                <DropdownMenuItem onSelect={e => e.preventDefault()}>
+                <AlertDialog>
+                        <AlertDialogTrigger className="w-full text-left">
+                            Delete Invoice
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This action cannot be undone. This will permanently delete the invoice.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction asChild>
+                                    <form action={handleDeleteInvoice}>
+                                        <input type="hidden" name="id" value={invoice.id} />
+                                        <button type="submit">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+        </div>
+        
 
         </div>
         <p className="text-3xl mb-3">
