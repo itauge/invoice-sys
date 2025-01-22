@@ -20,6 +20,16 @@ model Invoices {
   createdAt DateTime @default(now())
   status Status @default(PENDING)
   userId String?
+  customerId Int?
+  customer Customers? @relation(fields: [customerId], references: [id])
+}
+
+model Customers {
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  userId String
+  invoices Invoices[]
 }
 
 enum Status {

@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Container from "@/components/Container"
-import { ChevronDown, Ellipsis } from "lucide-react"
+import { ChevronDown, Ellipsis, Trash2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Invoices, Status } from "@prisma/client"
 import { useOptimistic } from "react"
@@ -105,7 +105,8 @@ export default function Invoice({invoice, updateInvoiceStatus, deleteInvoice, AV
             <DropdownMenuContent>
                 <DropdownMenuItem onSelect={e => e.preventDefault()}>
                 <AlertDialog>
-                        <AlertDialogTrigger className="w-full text-left">
+                        <AlertDialogTrigger className="w-full text-left flex gap-2 items-center">
+                            <Trash2 className="w-4 h-auto" />
                             Delete Invoice
                         </AlertDialogTrigger>
                         <AlertDialogContent>

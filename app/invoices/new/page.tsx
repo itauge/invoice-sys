@@ -29,7 +29,7 @@ export default function NewInvoice() {
         try {
             setIsSubmitting(true);
             const response = await axios.post('/api/invoices', formData)
-            router.push(`/invoices/${response.data.id}`)
+            router.push(`/invoices/${response.data.invoice.id}`)
         } catch (error) {
             console.error(error);
         } finally {
