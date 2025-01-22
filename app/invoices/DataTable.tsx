@@ -1,11 +1,13 @@
 import { Badge } from "@/components/ui/badge";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { Invoices } from "@prisma/client";
+import { Invoices, Customers } from "@prisma/client";
 import Link from "next/link";
 
 interface Props {
-    invoices: Invoices[]
+    invoices: (Invoices & {
+        customer: Customers | null
+    })[]
 }
 
 const DataTable = ({invoices}: Props) => {
@@ -30,12 +32,12 @@ const DataTable = ({invoices}: Props) => {
             </TableCell>
             <TableCell className="text-left">
                 <Link href={`/invoices/${invoice.id}`} className="font-semibold">
-                    John Doe
+                    {invoice.customer?.name}
                 </Link>
             </TableCell>
             <TableCell className="text-left">
                 <Link href={`/invoices/${invoice.id}`} className="font-semibold">
-                    johndoe@gmail.com
+                    {invoice.customer?.email}
                 </Link>
             </TableCell>
             <TableCell className="text-center">

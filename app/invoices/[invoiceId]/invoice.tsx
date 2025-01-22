@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import Container from "@/components/Container"
 import { ChevronDown, Ellipsis, Trash2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Invoices, Status } from "@prisma/client"
+import { Customers, Invoices, Status } from "@prisma/client"
 import { useOptimistic } from "react"
 import { useRouter } from "next/navigation"
 import { 
@@ -21,7 +21,9 @@ import {
     AlertDialogTrigger } from "@/components/ui/alert-dialog"
 
 interface InvoiceProps {
-    invoice: Invoices
+    invoice: Invoices & {
+        customer: Customers | null
+    }
     updateInvoiceStatus: (formData: FormData) => Promise<void>
     deleteInvoice: (formData: FormData) => Promise<void>
     AVAILABLE_STATUSES: {id: string, label: string}[]
@@ -59,7 +61,7 @@ export default function Invoice({invoice, updateInvoiceStatus, deleteInvoice, AV
         <main className="w-full h-full my-12">
         <Container>
         <div className="flex justify-between mb-8">
-        <h1 className="flex items-center gap-2 text-3xl font-semibold">{invoice.id}
+        <h1 className="flex items-center gap-2 text-3xl font-semibold">{invoice.customer?.name}
             <Badge className={cn(
                 "rounded-full",
                 currentStatus === "PENDING" && "bg-yellow-500",
@@ -137,7 +139,7 @@ export default function Invoice({invoice, updateInvoiceStatus, deleteInvoice, AV
 
         </div>
         <p className="text-3xl mb-3">
-            {invoice?.value}
+            ${invoice?.value}
         </p>
 
         <p className="text-lg mb-8">
@@ -157,11 +159,11 @@ export default function Invoice({invoice, updateInvoiceStatus, deleteInvoice, AV
             </li>
             <li className="flex gap-4">
                 <strong className="block w-28 flex-shrink-0 font-medium text-sm">Billing Name</strong>
-                <span className="text-sm">text</span>
+                <span className="text-sm">{invoice?.customer?.name}</span>
             </li>
             <li className="flex gap-4">
                 <strong className="block w-28 flex-shrink-0 font-medium text-sm">Billing Email</strong>
-                <span className="text-sm">text</span>
+                <span className="text-sm">{invoice?.customer?.email}</span>
             </li>
         </ul>
         </Container>

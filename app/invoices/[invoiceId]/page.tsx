@@ -66,6 +66,9 @@ export default async function InvoicePage({params}: Props) {
         where: {
             id: id,
             userId: session?.userId
+        },
+        include: {
+            customer: true
         }
     })
 

@@ -13,6 +13,9 @@ export default async function Dashboard() {
     const invoices = await prisma.invoices.findMany({
         where: {
             userId: session?.userId
+        },
+        include: {
+            customer: true
         }
     });
 
